@@ -1,4 +1,5 @@
-name: Node.js CI
+
+name: Node.js CI  # This ensures the workflow is named "Node.js CI" in GitHub Actions
 
 on:
   push:
@@ -10,6 +11,7 @@ on:
 
 jobs:
   test:
+    name: Run Jest Tests on Node.js ${{ matrix.node-version }}  # Job name displayed in GitHub Actions
     runs-on: ubuntu-latest
 
     strategy:
@@ -20,7 +22,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
+      - name: Set up Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
@@ -30,3 +32,6 @@ jobs:
 
       - name: Run tests
         run: npm test
+
+      - name: Display Node.js version
+        run: node -v  # Logs the Node.js version to confirm it's using the right one
